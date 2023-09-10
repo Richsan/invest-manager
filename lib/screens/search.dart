@@ -13,19 +13,24 @@ class SearchScreen extends StatelessWidget {
 
   final String title;
 
-  List<Widget> _buildCompaniesTiles(
+  Widget _buildCompaniesTiles(
       BuildContext context, SearchScreenState state) {
+
     if (state is SearchedScreenState) {
-      return state.companies
-          .map((e) => ListTile(
-                title: Text(e.name),
-                subtitle: Text(e.segment),
-              ))
-          .toList();
+      return Expanded(
+        child: ListView.builder(
+          scrollDirection: Axis.vertical,
+          itemCount: state.companies.length,
+          itemBuilder: (context, index) => ListTile(
+            title: Text(state.companies[index].name),
+            subtitle: Text(state.companies[index].segment),
+          ),
+        ),
+      );
     } else if (state is InitialSearchScreenState) {
-      return [];
+      return const SizedBox(height: 0,);
     } else {
-      return [const Text("searching")];
+      return const Text("searching");
     }
   }
 
@@ -35,9 +40,7 @@ class SearchScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(10),
-          child: Column(
+        body: Column(
             children: [
               TextFormField(
               initialValue: state.search,
@@ -46,11 +49,10 @@ class SearchScreen extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Search for companies'),
               ),
               const SizedBox(height: 20),
-               ..._buildCompaniesTiles(context, state),
+               _buildCompaniesTiles(context, state),
             ],
           ),
         ),
-      ),
     );
   }
 

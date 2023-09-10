@@ -25,6 +25,5 @@ Future<List<Company>> searchListedCompanies(String search) async {
   final companies = await listedCompanies;
 
   return companies.where((element) => element.name.toUpperCase().contains(search.toUpperCase()))
-      .take(10)
       .toList();
 }
