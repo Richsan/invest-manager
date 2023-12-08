@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invest_manager/models/b3.dart';
+import 'package:invest_manager/screens/stock.dart';
 
 class CompanyScreen extends StatelessWidget {
   const CompanyScreen({
@@ -40,7 +41,11 @@ class CompanyScreen extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                   icon: Icon(Icons.sell),
-                  onPressed: null,
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => StockSellScreen(company: company),
+                    ),
+                  ),
                   label: Text("Vender", style: TextStyle(color: Colors.white)),
                   style: ButtonStyle(
                     backgroundColor:
@@ -49,7 +54,11 @@ class CompanyScreen extends StatelessWidget {
                 ),
                 ElevatedButton.icon(
                   icon: Icon(Icons.attach_money),
-                  onPressed: null,
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => StockBuyScreen(company: company),
+                    ),
+                  ),
                   label: Text("Comprar", style: TextStyle(color: Colors.white)),
                   style: ButtonStyle(
                     backgroundColor:
