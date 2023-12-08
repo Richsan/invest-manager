@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:invest_manager/models/b3.dart';
 import 'package:invest_manager/widgets/input.dart';
 
@@ -38,7 +39,6 @@ class StockSellScreen extends StatelessWidget {
 
 class _StockOperationScreen extends StatelessWidget {
   const _StockOperationScreen({
-    super.key,
     required this.company,
     required this.title,
   });
@@ -53,10 +53,52 @@ class _StockOperationScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
+      body: SingleChildScrollView(
         child: Column(
-          children: [CounterField()],
+          children: [
+            IntegerCounterField(
+              initialValue: BigInt.from(100),
+              stepValue: BigInt.from(100),
+              allowNegative: false,
+              allowZero: false,
+            ),
+            SizedBox(height: 16),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'OperationFee',
+              ),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Emoluments',
+              ),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Taxes',
+              ),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'LiquidationFee',
+              ),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
+            ),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'OtherFees',
+              ),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              keyboardType: TextInputType.number,
+            ),
+          ],
         ),
       ),
     );
