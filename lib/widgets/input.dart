@@ -77,6 +77,46 @@ class _CounterCubit extends Cubit<_CounterFieldState> {
       _CounterFieldState(value: initialValue ?? BigInt.zero, rebuild: true));
 }
 
+class _NumberCubit extends Cubit<BigInt?> {
+  _NumberCubit() : super(null);
+
+  void change(BigInt? value) => emit(value);
+}
+
+class NumberFormField extends StatelessWidget {
+  NumberFormField({
+    Key? key,
+    required this.labelText,
+  })  : _numberCubit = _NumberCubit(),
+        super(key: key);
+
+  final String labelText;
+  final _NumberCubit _numberCubit;
+  BigInt? get currentValue => _numberCubit.state;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<_NumberCubit, BigInt?>(
+      bloc: _numberCubit,
+      builder: (context, state) => TextFormField(
+        onChanged: (value) {
+          if (value.isEmpty) {
+            _numberCubit.change(null);
+          } else {
+            _numberCubit.change(BigInt.parse(value));
+          }
+        },
+        initialValue: state?.toString() ?? '',
+        decoration: InputDecoration(
+          labelText: labelText,
+        ),
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        keyboardType: TextInputType.number,
+      ),
+    );
+  }
+}
+
 class IntegerCounterField extends StatelessWidget {
   IntegerCounterField({
     super.key,
@@ -84,6 +124,7 @@ class IntegerCounterField extends StatelessWidget {
     this.stepValue,
     this.allowNegative = true,
     this.allowZero = true,
+    required this.labelText,
   }) : _counterCubit = _CounterCubit(
           initialValue: initialValue,
           stepValue: stepValue,
@@ -96,6 +137,7 @@ class IntegerCounterField extends StatelessWidget {
   final bool allowNegative;
   final bool allowZero;
   final _CounterCubit _counterCubit;
+  final String labelText;
 
   BigInt get currentValue => _counterCubit.state.value;
 
@@ -128,8 +170,8 @@ class IntegerCounterField extends StatelessWidget {
                     _counterCubit.rebuild();
                   }
                 },
-                decoration: const InputDecoration(
-                  labelText: 'Unidades',
+                decoration: InputDecoration(
+                  labelText: labelText,
                 ),
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 keyboardType: TextInputType.number,

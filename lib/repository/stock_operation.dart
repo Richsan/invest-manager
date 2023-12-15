@@ -2,10 +2,11 @@ import 'package:invest_manager/models/stock_operation.dart';
 
 final List<StockOperation> _db = [];
 
-void save(StockOperation operation) {
-  _db.add(operation);
+Future<void> save(StockOperation operation) {
+  return Future.delayed(const Duration(seconds: 1))
+      .then((value) => _db.add(operation));
 }
 
-List<StockOperation> getAll() {
-  return _db;
+Future<List<StockOperation>> getAll() {
+  return Future.delayed(const Duration(seconds: 1)).then((value) => _db);
 }

@@ -38,13 +38,30 @@ class StockSellScreen extends StatelessWidget {
 }
 
 class _StockOperationScreen extends StatelessWidget {
-  const _StockOperationScreen({
+  _StockOperationScreen({
     required this.company,
     required this.title,
-  });
+  })  : unities = IntegerCounterField(
+          initialValue: BigInt.from(100),
+          stepValue: BigInt.from(100),
+          allowNegative: false,
+          allowZero: false,
+          labelText: 'Unities',
+        ),
+        operationFee = NumberFormField(labelText: 'OperationFee'),
+        emoluments = NumberFormField(labelText: 'Emoluments'),
+        taxes = NumberFormField(labelText: 'Taxes'),
+        liquidationFee = NumberFormField(labelText: 'LiquidationFee'),
+        otherFees = NumberFormField(labelText: 'OtherFees');
 
   final Company company;
   final String title;
+  final IntegerCounterField unities;
+  final NumberFormField operationFee;
+  final NumberFormField emoluments;
+  final NumberFormField taxes;
+  final NumberFormField liquidationFee;
+  final NumberFormField otherFees;
 
   @override
   Widget build(BuildContext context) {
@@ -56,47 +73,25 @@ class _StockOperationScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            IntegerCounterField(
-              initialValue: BigInt.from(100),
-              stepValue: BigInt.from(100),
-              allowNegative: false,
-              allowZero: false,
-            ),
+            unities,
             SizedBox(height: 16),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'OperationFee',
-              ),
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Emoluments',
-              ),
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Taxes',
-              ),
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'LiquidationFee',
-              ),
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.number,
-            ),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'OtherFees',
-              ),
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.number,
+            operationFee,
+            emoluments,
+            taxes,
+            liquidationFee,
+            otherFees,
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: (() => print({
+                    'OperationFee': operationFee.currentValue,
+                    'counter': unities.currentValue,
+                    'emoluments': emoluments.currentValue,
+                    'taxes': taxes.currentValue,
+                    'liquidationFee': liquidationFee.currentValue,
+                    'otherFees': otherFees.currentValue,
+                  })),
+              style: ElevatedButton.styleFrom(),
+              child: Text('Salvar'),
             ),
           ],
         ),
