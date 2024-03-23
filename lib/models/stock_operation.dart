@@ -1,5 +1,10 @@
 import 'package:invest_manager/models/b3.dart';
 
+enum OperationType {
+  buy,
+  sell,
+}
+
 class StockOperation {
   StockOperation({
     required this.operationDate,
@@ -11,6 +16,8 @@ class StockOperation {
     required this.emoluments,
     required this.liquidationFee,
     required this.otherFees,
+    required this.unities,
+    required this.operationType,
   });
 
   final DateTime operationDate;
@@ -22,4 +29,6 @@ class StockOperation {
   final BigInt emoluments;
   final BigInt liquidationFee;
   final BigInt otherFees;
+  final BigInt unities;
+  final OperationType operationType;
 }

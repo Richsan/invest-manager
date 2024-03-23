@@ -1,6 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:invest_manager/adapters/date.dart';
+import 'package:invest_manager/adapters/number.dart';
+import 'package:invest_manager/adapters/string.dart';
+import 'package:invest_manager/widgets/input_masks.dart';
 
 class _CounterFieldState {
   _CounterFieldState({
@@ -78,9 +84,15 @@ class _CounterCubit extends Cubit<_CounterFieldState> {
 }
 
 class _NumberCubit extends Cubit<BigInt?> {
-  _NumberCubit() : super(null);
+  _NumberCubit({BigInt? initialValue}) : super(initialValue);
 
   void change(BigInt? value) => emit(value);
+}
+
+class _DateTimeCubit extends Cubit<DateTime?> {
+  _DateTimeCubit({DateTime? initialValue}) : super(initialValue);
+
+  void change(DateTime? value) => emit(value);
 }
 
 class NumberFormField extends StatelessWidget {
@@ -186,6 +198,123 @@ class IntegerCounterField extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class SubmitButton extends StatelessWidget {
+  const SubmitButton({
+    Key? key,
+    this.isLoading = false,
+    required this.onSubmit,
+    required this.text,
+  }) : super(key: key);
+
+  final bool isLoading;
+  final VoidCallback onSubmit;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: isLoading ? null : onSubmit,
+      style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(16.0)),
+      child: isLoading
+          ? Container(
+              width: 24,
+              height: 24,
+              padding: const EdgeInsets.all(2.0),
+              child: const CircularProgressIndicator(
+                color: Colors.blue,
+                strokeWidth: 3,
+              ),
+            )
+          : Text(text),
+    );
+  }
+}
+
+class CurrencyFormField extends StatelessWidget {
+  CurrencyFormField({
+    Key? key,
+    required this.labelText,
+  })  : _numberCubit = _NumberCubit(initialValue: BigInt.zero),
+        super(key: key);
+
+  final String labelText;
+  final _NumberCubit _numberCubit;
+  BigInt? get currentValue => _numberCubit.state;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<_NumberCubit, BigInt?>(
+      bloc: _numberCubit,
+      builder: (context, state) => TextFormField(
+        onChanged: (value) {
+          if (value.isEmpty) {
+            _numberCubit.change(null);
+          } else {
+            _numberCubit.change(value.asMoney());
+          }
+        },
+        initialValue: state?.asCurrency() ?? '',
+        decoration: InputDecoration(
+          labelText: labelText,
+        ),
+        inputFormatters: [masks['currency']!.formatter],
+        keyboardType: TextInputType.number,
+      ),
+    );
+  }
+}
+
+class DatePicker extends StatelessWidget {
+  DatePicker({
+    Key? key,
+    required this.labelText,
+    DateTime? initialDate,
+    DateTime? minDate,
+    DateTime? maxDate,
+  })  : initialDate = initialDate ?? DateTime.now(),
+        minDate = minDate ?? DateTime(1900),
+        maxDate = maxDate ?? DateTime(2101),
+        _dateTimeCubit =
+            _DateTimeCubit(initialValue: initialDate ?? DateTime.now()),
+        super(key: key);
+
+  final _DateTimeCubit _dateTimeCubit;
+  final String labelText;
+  final DateTime initialDate, minDate, maxDate;
+  DateTime? get currentValue => _dateTimeCubit.state;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<_DateTimeCubit, DateTime?>(
+      bloc: _dateTimeCubit,
+      builder: (context, state) {
+        TextEditingController c = TextEditingController(
+          text: state?.toDateStr() ?? DateTime.now().toDateStr(),
+        );
+        return TextField(
+          controller: c,
+          decoration: InputDecoration(
+            icon: const Icon(Icons.calendar_today), //icon of text field
+            labelText: labelText, //label text of field
+          ),
+          readOnly: true,
+          onTap: () async {
+            final DateTime? dateChosen = await showDatePicker(
+              context: context,
+              initialDate: initialDate, //get today's date
+              firstDate:
+                  minDate, //DateTime.now() - not to allow to choose before today.
+              lastDate: maxDate,
+            );
+            if (dateChosen != null) {
+              _dateTimeCubit.change(dateChosen);
+            }
+          },
+        );
+      },
     );
   }
 }
