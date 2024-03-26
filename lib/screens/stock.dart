@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:invest_manager/adapters/date.dart';
+import 'package:invest_manager/adapters/number.dart';
 import 'package:invest_manager/models/b3.dart';
 import 'package:invest_manager/models/stock_operation.dart';
 import 'package:invest_manager/screens/bloc/stock_operation/bloc.dart';
@@ -42,12 +43,87 @@ class StockSellScreen extends StatelessWidget {
   }
 }
 
+class StockOperationDetails extends StatelessWidget {
+  const StockOperationDetails({
+    super.key,
+    required this.stockOperation,
+  });
+
+  final StockOperation stockOperation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.only(
+        top: 30,
+      ),
+      child: Column(
+        crossAxisAlignment:
+            CrossAxisAlignment.center, // Centraliza horizontalmente
+        children: [
+          Text(stockOperation.company.name),
+          Text(stockOperation.unities.toString()),
+          Text(stockOperation.unityValue.asCurrency()),
+          Text(stockOperation.operationType.toString()),
+          Text(stockOperation.emoluments.asCurrency()),
+          Text(stockOperation.operationFee.asCurrency()),
+          Text(stockOperation.taxes.asCurrency()),
+          Text(stockOperation.otherFees.asCurrency()),
+          Text(stockOperation.operationDate.toDateStr()),
+          Text(stockOperation.liquidationDate.toDateStr()),
+        ],
+      ),
+    );
+  }
+}
+
+class StockOperationDetailsScreen extends StatelessWidget {
+  const StockOperationDetailsScreen({
+    super.key,
+    required this.stockOperation,
+  });
+
+  final StockOperation stockOperation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Stock Operation details"),
+      ),
+      body: Column(
+        children: [
+          StockOperationDetails(
+            stockOperation: stockOperation,
+          ),
+          ButtonBar(
+            buttonPadding: EdgeInsets.all(30),
+            alignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton.icon(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop(),
+                label: Text("Voltar", style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _StockOperationScreen extends StatelessWidget {
   _StockOperationScreen({
     required this.company,
     required this.title,
     required this.operationType,
-  })  : unities = IntegerCounterField(
+  })  : ticker = DropDownTextField(
+          label: 'Ticker',
+          values: company.tickers.map((e) => e.b3code).toList(),
+        ),
+        unities = IntegerCounterField(
           initialValue: BigInt.from(100),
           stepValue: BigInt.from(100),
           allowNegative: false,
@@ -70,6 +146,7 @@ class _StockOperationScreen extends StatelessWidget {
 
   final Company company;
   final String title;
+  final DropDownTextField ticker;
   final IntegerCounterField unities;
   final CurrencyFormField operationFee;
   final CurrencyFormField emoluments;
@@ -86,6 +163,7 @@ class _StockOperationScreen extends StatelessWidget {
         child: Column(
           children: [
             unities,
+            ticker,
             SizedBox(height: 16),
             operationFee,
             emoluments,
@@ -103,6 +181,7 @@ class _StockOperationScreen extends StatelessWidget {
                     BlocProvider.of<SaveStockOperationScreenBloc>(context).add(
                       SaveStockOperationEvent(
                           operation: StockOperation(
+                        ticker: ticker.currentValue,
                         operationType: operationType,
                         company: company,
                         emoluments: emoluments.currentValue!,
@@ -131,7 +210,13 @@ class _StockOperationScreen extends StatelessWidget {
           return buildBody(context, true);
         }
 
-        return Text("saved");
+        if (state is SavedStockOperationScreenState) {
+          return StockOperationDetails(
+            stockOperation: state.operation,
+          );
+        }
+
+        return const Text('error');
       },
     );
   }
