@@ -19,6 +19,7 @@ class StockOperation {
     required this.otherFees,
     required this.unities,
     required this.operationType,
+    this.splitFactor = 1,
   });
 
   final DateTime operationDate;
@@ -32,5 +33,6 @@ class StockOperation {
   final BigInt liquidationFee;
   final BigInt otherFees;
   final BigInt unities;
+  final double splitFactor;
   final OperationType operationType;
 }

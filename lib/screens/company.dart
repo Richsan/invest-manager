@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:invest_manager/adapters/date.dart';
 import 'package:invest_manager/models/b3.dart';
 import 'package:invest_manager/screens/stock.dart';
 
@@ -30,7 +31,7 @@ class CompanyScreen extends StatelessWidget {
             Text(company.tradingName),
             Text(company.taxId),
             Text(company.cvmCode),
-            Text(company.listedSince.toString()),
+            Text(company.listedSince.toDateStr()),
             Text(company.cvmCode),
             ...(company.tickers.map((e) => Text(e.b3code))),
             Text(company.website.toString()),
@@ -53,7 +54,7 @@ class CompanyScreen extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton.icon(
-                  icon: Icon(Icons.attach_money),
+                  icon: Icon(Icons.shopping_cart),
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => StockBuyScreen(company: company),

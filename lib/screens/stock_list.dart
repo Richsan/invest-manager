@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:invest_manager/adapters/date.dart';
+import 'package:invest_manager/adapters/number.dart';
 import 'package:invest_manager/models/stock_operation.dart';
+import 'package:invest_manager/screens/stock.dart';
 
 class StockOperationListScreen extends StatelessWidget {
   final List<StockOperation> stockOperations;
@@ -23,17 +26,26 @@ class StockOperationListScreen extends StatelessWidget {
                 return Card(
                   margin: EdgeInsets.only(top: 15),
                   child: ListTile(
-                    title: Text('Company: ${operation.company.name}'),
+                    leading: operation.operationType == OperationType.sell
+                        ? Icon(
+                            Icons.sell,
+                            color: Colors.red,
+                          )
+                        : Icon(
+                            Icons.shopping_cart,
+                            color: Colors.lightGreen,
+                          ),
+                    title: Text(
+                        'Company: ${operation.company.name} - ${operation.ticker}'),
                     subtitle: Text(
-                      'Operation Date: ${operation.operationDate.toString()}\n'
-                      'Operation Type: ${operation.operationType == OperationType.buy ? 'Buy' : 'Sell'}\n'
-                      'Unity Value: ${operation.unityValue}\n'
-                      'Operation Unities: ${operation.unities}\n'
-                      'Taxes: ${operation.taxes}\n'
-                      'Operation Fee: ${operation.operationFee}\n'
-                      'Emoluments: ${operation.emoluments}\n'
-                      'Liquidation Fee: ${operation.liquidationFee}\n'
-                      'Other Fees: ${operation.otherFees}',
+                        'Unity Value: ${operation.unityValue.asCurrency()}\n'
+                        'Operation Unities: ${operation.unities}\n'
+                        'Operation Date: ${operation.operationDate.toDateStr()}\n'),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => StockOperationDetailsScreen(
+                            stockOperation: operation),
+                      ),
                     ),
                   ),
                 );
