@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:invest_manager/adapters/number.dart';
+import 'package:invest_manager/models/stock_operation.dart';
 
 extension StringAdapter on String {
   String onlyNumbers() {
@@ -15,5 +16,9 @@ extension StringAdapter on String {
 
   BigInt asMoney() {
     return BigInt.parse(onlyNumbers());
+  }
+
+  OperationType toOperationType() {
+    return this == 'buy' ? OperationType.buy : OperationType.sell;
   }
 }

@@ -38,7 +38,7 @@ class Company extends Equatable {
     this.segment = "",
     this.tickers = const [],
     this.activity = "",
-    this.industryCassification = "",
+    this.industryClassification = "",
     this.institutionCommon = "",
     this.institutionPreferred = "",
     this.website,
@@ -53,7 +53,7 @@ class Company extends Equatable {
   final String segment;
   final DateTime listedSince;
   final List<CompanyTicker> tickers;
-  final String industryCassification;
+  final String industryClassification;
   final String activity;
   final String institutionCommon;
   final String institutionPreferred;
@@ -73,7 +73,7 @@ class Company extends Equatable {
           .map((e) => e as Map<String, dynamic>)
           .map(CompanyTicker.fromJson)
           .toList(),
-      industryCassification: json["industryClassification"],
+      industryClassification: json["industryClassification"],
       institutionCommon: json['institutionCommon'],
       activity: json['activity'],
       institutionPreferred: json['institutionPreferred'],
@@ -94,7 +94,7 @@ class Company extends Equatable {
         tickers,
         institutionPreferred,
         institutionCommon,
-        industryCassification,
+        industryClassification,
         activity,
         website,
       ];
