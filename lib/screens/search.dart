@@ -3,13 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invest_manager/screens/bloc/search_screen/bloc.dart';
 import 'package:invest_manager/screens/company.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({
+class StockCompanySearch extends StatelessWidget {
+  const StockCompanySearch({
     super.key,
-    required this.title,
   });
-
-  final String title;
 
   Widget _buildCompaniesTiles(BuildContext context, SearchScreenState state) {
     if (state is SearchedScreenState) {
@@ -41,23 +38,18 @@ class SearchScreen extends StatelessWidget {
 
   Widget _buildScreen(BuildContext context) {
     return BlocBuilder<SearchScreenBloc, SearchScreenState>(
-      builder: (context, state) => Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Column(
-          children: [
-            TextFormField(
-              initialValue: state.search,
-              onChanged: (value) => BlocProvider.of<SearchScreenBloc>(context)
-                  .add(NewSearchEvent(search: value)),
-              decoration:
-                  const InputDecoration(labelText: 'Search for companies'),
-            ),
-            const SizedBox(height: 20),
-            _buildCompaniesTiles(context, state),
-          ],
-        ),
+      builder: (context, state) => Column(
+        children: [
+          TextFormField(
+            initialValue: state.search,
+            onChanged: (value) => BlocProvider.of<SearchScreenBloc>(context)
+                .add(NewSearchEvent(search: value)),
+            decoration:
+                const InputDecoration(labelText: 'Search for companies'),
+          ),
+          const SizedBox(height: 20),
+          _buildCompaniesTiles(context, state),
+        ],
       ),
     );
   }
@@ -67,6 +59,20 @@ class SearchScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => SearchScreenBloc(),
       child: _buildScreen(context),
+    );
+  }
+}
+
+class SearchScreen extends StatelessWidget {
+  const SearchScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Search Stock Company'),
+      ),
+      body: const StockCompanySearch(),
     );
   }
 }
