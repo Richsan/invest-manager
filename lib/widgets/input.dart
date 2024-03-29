@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -95,6 +93,12 @@ class _DateTimeCubit extends Cubit<DateTime?> {
   void change(DateTime? value) => emit(value);
 }
 
+class _TextCubit extends Cubit<String> {
+  _TextCubit({String initialValue = ""}) : super(initialValue);
+
+  void change(String value) => emit(value);
+}
+
 class NumberFormField extends StatelessWidget {
   NumberFormField({
     Key? key,
@@ -104,6 +108,7 @@ class NumberFormField extends StatelessWidget {
 
   final String labelText;
   final _NumberCubit _numberCubit;
+
   BigInt? get currentValue => _numberCubit.state;
 
   @override
@@ -243,7 +248,9 @@ class CurrencyFormField extends StatelessWidget {
 
   final String labelText;
   final _NumberCubit _numberCubit;
+
   BigInt? get currentValue => _numberCubit.state;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<_NumberCubit, BigInt?>(
@@ -284,6 +291,7 @@ class DatePicker extends StatelessWidget {
   final _DateTimeCubit _dateTimeCubit;
   final String labelText;
   final DateTime initialDate, minDate, maxDate;
+
   DateTime? get currentValue => _dateTimeCubit.state;
 
   @override
@@ -315,6 +323,54 @@ class DatePicker extends StatelessWidget {
           },
         );
       },
+    );
+  }
+}
+
+class DropDownTextField extends StatelessWidget {
+  DropDownTextField({
+    super.key,
+    required this.values,
+    required this.label,
+  }) : _cubit = _TextCubit(
+          initialValue: values.first,
+        );
+
+  final List<String> values;
+  final String label;
+  final _TextCubit _cubit;
+
+  String get currentValue => _cubit.state;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<_TextCubit, String>(
+      bloc: _cubit,
+      builder: (context, state) => Container(
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: [
+            Text("$label :"),
+            const SizedBox(
+              width: 10,
+            ),
+            DropdownButton<String>(
+              value: state,
+              items: values
+                  .map((v) => DropdownMenuItem<String>(
+                        value: v,
+                        child: Text(v),
+                      ))
+                  .toList(),
+              onChanged: (value) {
+                if (value != null) {
+                  _cubit.change(value);
+                }
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

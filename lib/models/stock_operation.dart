@@ -10,6 +10,7 @@ class StockOperation {
     required this.operationDate,
     required this.liquidationDate,
     required this.company,
+    required this.ticker,
     required this.unityValue,
     required this.taxes,
     required this.operationFee,
@@ -23,6 +24,7 @@ class StockOperation {
   final DateTime operationDate;
   final DateTime liquidationDate;
   final Company company;
+  final String ticker;
   final BigInt unityValue;
   final BigInt taxes;
   final BigInt operationFee;
