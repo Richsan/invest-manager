@@ -54,19 +54,17 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            FutureBuilder(
-              future: getAllStockOperations(),
-              builder: (context, snapshot) => ListTile(
-                title: Text('Stock operation list'),
-                onTap: () {
-                  // Implementar a navegação para a página aqui
-                  Navigator.of(context).push(MaterialPageRoute(
+            ListTile(
+              title: const Text('Stock operation list'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
                     builder: (context) => StockOperationListScreen(
-                      stockOperations: snapshot.requireData,
+                      stockOperationsFuture: getAllStockOperations(),
                     ),
-                  ));
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ],
         ),
