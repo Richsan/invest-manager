@@ -11,6 +11,22 @@ Future<void> save(StockOperation operation) async {
   });
 }
 
+Future<void> saveAll(List<StockOperation> operations) async {
+  final b = (await getDatabase()).batch();
+
+  for (StockOperation operation in operations) {
+    b.insert('stock_operation', operation.toEntity(),
+        conflictAlgorithm: ConflictAlgorithm.rollback);
+  }
+
+  print('saved');
+
+  await b.commit().onError((error, stackTrace) {
+    print('error->$error');
+    throw Exception();
+  });
+}
+
 Future<List<StockOperation>> getAllStockOperations() async {
   final companies = await listedCompanies;
   return (await (await getDatabase()).query('stock_operation'))

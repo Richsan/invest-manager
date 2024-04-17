@@ -1,4 +1,5 @@
 import 'package:invest_manager/models/b3.dart';
+import 'package:uuid/uuid.dart';
 
 enum OperationType {
   buy,
@@ -7,6 +8,7 @@ enum OperationType {
 
 class StockOperation {
   StockOperation({
+    UuidValue? id,
     required this.operationDate,
     required this.liquidationDate,
     required this.company,
@@ -20,8 +22,9 @@ class StockOperation {
     required this.unities,
     required this.operationType,
     this.splitFactor = 1,
-  });
+  }) : id = id ?? const Uuid().v4obj();
 
+  final UuidValue id;
   final DateTime operationDate;
   final DateTime liquidationDate;
   final Company company;

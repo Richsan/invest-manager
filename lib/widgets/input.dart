@@ -389,11 +389,15 @@ class FilePickerButton extends StatelessWidget {
   FilePickerButton({
     Key? key,
     required this.label,
+    this.disabled = false,
+    this.onFilePicked,
   })  : _cubit = _ContentPickerCubit(),
         super(key: key);
 
   final String label;
+  final bool disabled;
   final _ContentPickerCubit _cubit;
+  final void Function(String)? onFilePicked;
 
   String get currentValue => _cubit.state;
 
@@ -407,21 +411,34 @@ class FilePickerButton extends StatelessWidget {
           children: [
             OutlinedButton.icon(
                 icon: const Icon(Icons.folder),
-                onPressed: () async {
-                  String dir = Platform.isAndroid
-                      ? '/storage/emulated/0'
-                      : (await getApplicationDocumentsDirectory()).path;
+                onPressed: disabled
+                    ? null
+                    : () async {
+                        String dir = Platform.isAndroid
+                            ? '/storage/emulated/0'
+                            : (await getApplicationDocumentsDirectory()).path;
 
-                  final filePicker = await FilePicker.platform.pickFiles();
+                        final filePicker =
+                            await FilePicker.platform.pickFiles();
 
-                  String pathChosen = filePicker?.files.single.path ?? '';
+                        String pathChosen = filePicker?.files.single.path ?? '';
 
-                  _cubit.valueChanged(pathChosen);
-                },
+                        _cubit.valueChanged(pathChosen);
+
+                        if (pathChosen != '' && onFilePicked != null) {
+                          onFilePicked!(pathChosen);
+                        }
+                      },
                 label: Text(label),
-                style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0)))),
+                style: disabled
+                    ? OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)),
+                        foregroundColor: Colors.grey.withOpacity(.8),
+                      )
+                    : OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0)))),
             Text(state),
           ],
         ),

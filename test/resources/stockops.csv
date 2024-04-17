@@ -1,0 +1,3 @@
+﻿operationDate,liquidationDate,company,unities,tags,unityValue,operationFee,emoluments,taxes,liquidationFee,otherFees,Custos Operacionais,Custo Total,splitFactor,Custo Médio,ticker,operationType
+"December 27, 2022","December 29, 2022",Suzano S.A.,100,"ED, NM, ON",46.9,4.9,0.23,0.52,1.17,0.19,7.01,4697.01,1,46.9701,SUZB3,buy
+"December 16, 2022","December 20, 2022",KLABIN S/A,100,"N2, PN",4.05,4.9,0.02,0.52,0.1,0.19,5.73,410.73,1,4.1073,KLBN4,buy

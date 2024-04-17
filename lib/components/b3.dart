@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +23,16 @@ Future<List<Company>> listedCompanies = _listedCompanies();
 Future<List<Company>> searchListedCompanies(String search) async {
   final companies = await listedCompanies;
 
-  return companies.where((element) => element.name.toUpperCase().contains(search.toUpperCase()))
+  return companies
+      .where((element) =>
+          element.name.toUpperCase().contains(search.toUpperCase()))
       .toList();
+}
+
+Future<Company> companyByTicker(String ticker) async {
+  final companies = await listedCompanies;
+
+  return companies.firstWhere((company) => company.tickers
+      .map((companyTicker) => companyTicker.b3code)
+      .contains(ticker));
 }

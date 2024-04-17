@@ -1,0 +1,40 @@
+[
+  {
+    "operationDate": "December 27, 2022",
+    "liquidationDate": "December 29, 2022",
+    "company": "Suzano S.A.",
+    "unities": "100",
+    "tags": "ED, NM, ON",
+    "unityValue": "46.9",
+    "operationFee": "4.9",
+    "emoluments": "0.23",
+    "taxes": "0.52",
+    "liquidationFee": "1.17",
+    "otherFees": "0.19",
+    "Custos Operacionais": "7.01",
+    "Custo Total": "4697.01",
+    "splitFactor": "1",
+    "Custo Médio": "46.9701",
+    "ticker": "SUZB3",
+    "operationType": "buy"
+  },
+  {
+    "operationDate": "December 16, 2022",
+    "liquidationDate": "December 20, 2022",
+    "company": "KLABIN S/A",
+    "unities": "100",
+    "tags": "N2, PN",
+    "unityValue": "4.05",
+    "operationFee": "4.9",
+    "emoluments": "0.02",
+    "taxes": "0.52",
+    "liquidationFee": "0.1",
+    "otherFees": "0.19",
+    "Custos Operacionais": "5.73",
+    "Custo Total": "410.73",
+    "splitFactor": "1",
+    "Custo Médio": "4.1073",
+    "ticker": "KLBN4",
+    "operationType": "buy"
+  }
+]

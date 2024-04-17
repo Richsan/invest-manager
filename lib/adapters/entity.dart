@@ -5,6 +5,7 @@ import 'package:invest_manager/models/stock_operation.dart';
 extension StockOperationEntity on StockOperation {
   Map<String, dynamic> toEntity() {
     return {
+      'stock_operation_id': id.uuid,
       'stock_operation_operation_date': operationDate.toIso8601String(),
       'company_tax_id': company.taxId,
       'ticker_code': ticker,

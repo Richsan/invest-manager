@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invest_manager/repository/stock_operation.dart';
+import 'package:invest_manager/screens/import_data.dart';
 import 'package:invest_manager/screens/search.dart';
 import 'package:invest_manager/screens/stock_list.dart';
 
@@ -17,26 +18,19 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(title: 'Invest Manager'),
+      home: const HomePage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  final String title;
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-  const HomePage({Key? key, required this.title}) : super(key: key);
-
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Invest Manager'),
       ),
       drawer: Drawer(
         child: ListView(
@@ -62,6 +56,16 @@ class _HomePageState extends State<HomePage> {
                     builder: (context) => StockOperationListScreen(
                       stockOperationsFuture: getAllStockOperations(),
                     ),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Import data'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ImportDataScreen(),
                   ),
                 );
               },
