@@ -1,6 +1,7 @@
 import 'package:invest_manager/adapters/string.dart';
 import 'package:invest_manager/models/b3.dart';
 import 'package:invest_manager/models/stock_operation.dart';
+import 'package:uuid/uuid.dart';
 
 extension StockOperationEntity on StockOperation {
   Map<String, dynamic> toEntity() {
@@ -19,17 +20,22 @@ extension StockOperationEntity on StockOperation {
       'stock_operation_other_fees': otherFees.toInt(),
       'stock_operation_split_factor': splitFactor,
       'stock_operation_type': operationType.toEnumString(),
+      'stock_operation_tags': tags.join(','),
     };
   }
 }
 
 extension FromEntity on Map<String, dynamic> {
   StockOperation fromStockOperationEntity(Company company) {
+    final String tags = this['stock_operation_tags'] ?? '';
+
     return StockOperation(
+      id: UuidValue.fromString(this['stock_operation_id']),
       operationDate: DateTime.parse(this['stock_operation_operation_date']),
       liquidationDate: DateTime.parse(this['stock_operation_liquidation_date']),
       company: company,
       ticker: this['ticker_code'],
+      tags: tags.trim().split(','),
       unityValue: BigInt.from(this['stock_operation_unity_value']),
       taxes: BigInt.from(this['stock_operation_taxes']),
       operationFee: BigInt.from(this['stock_operation_operation_fee']),

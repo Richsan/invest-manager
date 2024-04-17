@@ -24,7 +24,8 @@ Future<Database> getDatabase() async {
             ' stock_operation_liquidation_fee INTEGER NOT NULL,'
             ' stock_operation_other_fees INTEGER NOT NULL,'
             ' stock_operation_split_factor DOUBLE NOT NULL,'
-            ' stock_operation_type TEXT NOT NULL'
+            ' stock_operation_type TEXT NOT NULL,'
+            ' stock_operation_tags TEXT'
             ')',
           )
           .onError((error, stackTrace) => print('$error'));

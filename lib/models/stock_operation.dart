@@ -21,6 +21,7 @@ class StockOperation {
     required this.otherFees,
     required this.unities,
     required this.operationType,
+    this.tags = const [],
     this.splitFactor = 1,
   }) : id = id ?? const Uuid().v4obj();
 
@@ -38,4 +39,5 @@ class StockOperation {
   final BigInt unities;
   final double splitFactor;
   final OperationType operationType;
+  final List<String> tags;
 }

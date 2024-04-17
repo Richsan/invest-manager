@@ -68,6 +68,7 @@ class StockOperationDetails extends StatelessWidget {
           Text(stockOperation.operationType.toString()),
           Text(stockOperation.emoluments.asCurrency()),
           Text(stockOperation.operationFee.asCurrency()),
+          Text(stockOperation.liquidationFee.asCurrency()),
           Text(stockOperation.taxes.asCurrency()),
           Text(stockOperation.otherFees.asCurrency()),
           Text(stockOperation.operationDate.toDateStr()),

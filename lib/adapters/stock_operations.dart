@@ -13,13 +13,14 @@ extension MapToStockOperation on Map<String, String> {
       splitFactor: double.parse(this['splitFactor']!),
       company: company,
       ticker: this['ticker']!,
-      unityValue: this['unityValue']!.asMoney(),
-      operationFee: this['operationFee']!.asMoney(),
-      emoluments: this['emoluments']!.asMoney(),
-      liquidationFee: this['liquidationFee']!.asMoney(),
-      otherFees: this['otherFees']!.asMoney(),
+      unityValue: this['unityValue']!.doubleToMoney(),
+      operationFee: this['operationFee']!.doubleToMoney(),
+      emoluments: this['emoluments']!.doubleToMoney(),
+      liquidationFee: this['liquidationFee']!.doubleToMoney(),
+      otherFees: this['otherFees']!.doubleToMoney(),
       unities: BigInt.parse(this['unities']!),
-      taxes: this['taxes']!.asMoney(),
+      taxes: this['taxes']!.doubleToMoney(),
+      tags: this['tags']?.trim().split('-') ?? [],
       operationType: this['operationType']!
           .toOperationType(), // Assuming all are 'buy', change if needed
     );

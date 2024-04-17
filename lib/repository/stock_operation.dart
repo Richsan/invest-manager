@@ -29,7 +29,10 @@ Future<void> saveAll(List<StockOperation> operations) async {
 
 Future<List<StockOperation>> getAllStockOperations() async {
   final companies = await listedCompanies;
-  return (await (await getDatabase()).query('stock_operation'))
+  return (await (await getDatabase()).query(
+    'stock_operation',
+    orderBy: 'stock_operation_operation_date desc',
+  ))
       .map((e) => e.fromStockOperationEntity(companies.firstWhere(
           (element) => (e['company_tax_id'] as String) == element.taxId)))
       .toList();
