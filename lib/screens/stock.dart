@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invest_manager/adapters/date.dart';
+import 'package:invest_manager/adapters/entity.dart';
 import 'package:invest_manager/adapters/number.dart';
 import 'package:invest_manager/models/b3.dart';
 import 'package:invest_manager/models/stock_operation.dart';
 import 'package:invest_manager/screens/bloc/stock_operation/bloc.dart';
 import 'package:invest_manager/widgets/input.dart';
+import 'package:invest_manager/widgets/output.dart';
 
 class StockBuyScreen extends StatelessWidget {
   const StockBuyScreen({
@@ -63,16 +65,46 @@ class StockOperationDetails extends StatelessWidget {
             CrossAxisAlignment.center, // Centraliza horizontalmente
         children: [
           Text(stockOperation.company.name),
-          Text(stockOperation.unities.toString()),
-          Text(stockOperation.unityValue.asCurrency()),
-          Text(stockOperation.operationType.toString()),
-          Text(stockOperation.emoluments.asCurrency()),
-          Text(stockOperation.operationFee.asCurrency()),
-          Text(stockOperation.liquidationFee.asCurrency()),
-          Text(stockOperation.taxes.asCurrency()),
-          Text(stockOperation.otherFees.asCurrency()),
-          Text(stockOperation.operationDate.toDateStr()),
-          Text(stockOperation.liquidationDate.toDateStr()),
+          ValueDisplay(
+            label: 'Operation Date',
+            value: stockOperation.operationDate.toDateStr(),
+          ),
+          ValueDisplay(
+            label: 'Liquidation Date',
+            value: stockOperation.liquidationDate.toDateStr(),
+          ),
+          ValueDisplay(
+            label: 'Unities',
+            value: stockOperation.unities.toString(),
+          ),
+          ValueDisplay(
+            label: 'Unity Value',
+            value: stockOperation.unityValue.asCurrency(),
+          ),
+          ValueDisplay(
+            label: 'Type',
+            value: stockOperation.operationType.toEnumString(),
+          ),
+          ValueDisplay(
+            label: 'Emoluments',
+            value: stockOperation.emoluments.asCurrency(),
+          ),
+          ValueDisplay(
+            label: 'Operation Fee',
+            value: stockOperation.operationFee.asCurrency(),
+          ),
+          ValueDisplay(
+            label: 'Liquidation Fee',
+            value: stockOperation.liquidationFee.asCurrency(),
+          ),
+          ValueDisplay(
+            label: 'Taxes',
+            value: stockOperation.taxes.asCurrency(),
+          ),
+          ValueDisplay(
+            label: 'Other Fees',
+            value: stockOperation.otherFees.asCurrency(),
+          ),
         ],
       ),
     );
@@ -91,7 +123,8 @@ class StockOperationDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Stock Operation details"),
+        title: Text(
+            "${stockOperation.company.name} - ${stockOperation.operationType.toEnumString()}"),
       ),
       body: Column(
         children: [

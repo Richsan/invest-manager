@@ -3,6 +3,7 @@ import 'package:invest_manager/repository/stock_operation.dart';
 import 'package:invest_manager/screens/import_data.dart';
 import 'package:invest_manager/screens/search.dart';
 import 'package:invest_manager/screens/stock_list.dart';
+import 'package:invest_manager/screens/tax_report.dart';
 
 void main() async {
   runApp(MyApp());
@@ -66,6 +67,18 @@ class HomePage extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const ImportDataScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Tax Report'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TaxReportScreen(
+                      year: 2023,
+                    ),
                   ),
                 );
               },

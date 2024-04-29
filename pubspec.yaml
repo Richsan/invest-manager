@@ -46,6 +46,7 @@ dependencies:
   file_picker: ^8.0.0+1
   csv: ^6.0.0
   uuid: ^4.2.2
+  collection: ^1.17.2
 
 dev_dependencies:
   flutter_test:
