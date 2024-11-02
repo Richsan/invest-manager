@@ -3,6 +3,7 @@ import 'package:invest_manager/models/stock_operation.dart';
 
 StockOperationTaxReport taxReport(
   List<StockOperation> operations,
+  int year,
 ) {
   operations.sortBy((element) => element.operationDate);
   final Map<String, List<StockOperation>> opsByTicker =
@@ -39,6 +40,7 @@ StockOperationTaxReport taxReport(
           liquidationDate: op.liquidationDate,
           ticker: tickerOps.key,
           company: company,
+          costs: op.additionalCost(),
           referenceWeightedValue: position.weightedValue,
           soldUnities: op.unities,
           soldValue: op.unityValue,
@@ -59,6 +61,8 @@ StockOperationTaxReport taxReport(
   return StockOperationTaxReport(
     positions:
         positions.where((element) => element.unities > BigInt.zero).toList(),
-    sellProfits: profits,
+    sellProfits: profits
+        .where((element) => element.liquidationDate.year == (year - 1))
+        .toList(),
   );
 }

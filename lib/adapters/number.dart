@@ -1,10 +1,15 @@
 import 'package:intl/intl.dart';
 
 final currencyFormat = NumberFormat.simpleCurrency();
+final _monthDateFormat = DateFormat('MMMM');
 
-extension CurrencyFormatter on int {
+extension IntExt on int {
   String asCurrency() {
     return currencyFormat.format(this / 100);
+  }
+
+  String toMonth() {
+    return _monthDateFormat.format(DateTime(0, this + 1));
   }
 }
 

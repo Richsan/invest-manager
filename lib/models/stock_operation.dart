@@ -112,12 +112,15 @@ class StockOperationSellProfitReport extends Equatable {
     required this.referenceWeightedValue,
     required this.soldUnities,
     required this.soldValue,
+    required this.costs,
   }) : profitAmount = (soldValue * soldUnities) -
-            (referenceWeightedValue * soldUnities.toDouble()).asMoneyInt();
+            (referenceWeightedValue * soldUnities.toDouble()).asMoneyInt() -
+            costs;
 
   final DateTime sellDate;
   final DateTime liquidationDate;
   final BigInt profitAmount;
+  final BigInt costs;
   final String ticker;
   final Company company;
   final double referenceWeightedValue;

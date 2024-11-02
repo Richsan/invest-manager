@@ -76,9 +76,7 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => TaxReportScreen(
-                      year: 2023,
-                    ),
+                    builder: (context) => TaxReportScreen(),
                   ),
                 );
               },
