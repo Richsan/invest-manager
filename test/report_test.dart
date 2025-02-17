@@ -31,7 +31,7 @@ void main() {
           .where((element) => element.liquidationDate.year < 2023)
           .toList();
 
-      final report = taxReport(opsFiltered);
+      final report = taxReport(opsFiltered, 2023);
 
       expect(report.positions, []);
     },

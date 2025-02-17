@@ -20,6 +20,16 @@ class _CounterFieldState {
   final BigInt value;
 }
 
+class _PasswordFieldState {
+  _PasswordFieldState({
+    this.visible = false,
+    this.value = '',
+  });
+
+  final bool visible;
+  final String value;
+}
+
 class _CounterCubit extends Cubit<_CounterFieldState> {
   _CounterCubit({
     this.initialValue,
@@ -103,6 +113,26 @@ class _TextCubit extends Cubit<String> {
   void change(String value) => emit(value);
 }
 
+class _PasswordCubit extends Cubit<_PasswordFieldState> {
+  _PasswordCubit({
+    String initialValue = "",
+    bool visible = false,
+  }) : super(_PasswordFieldState(
+          value: initialValue,
+          visible: visible,
+        ));
+
+  void change(String value) => emit(_PasswordFieldState(
+        visible: state.visible,
+        value: value,
+      ));
+
+  void toggleVisibility() => emit(_PasswordFieldState(
+        value: state.value,
+        visible: !state.visible,
+      ));
+}
+
 class _ContentPickerCubit extends Cubit<String> {
   _ContentPickerCubit({String initialValue = ''}) : super(initialValue);
 
@@ -139,6 +169,67 @@ class NumberFormField extends StatelessWidget {
         ),
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         keyboardType: TextInputType.number,
+      ),
+    );
+  }
+}
+
+class TextInputField extends StatelessWidget {
+  TextInputField({
+    Key? key,
+    required this.labelText,
+  })  : _textCubit = _TextCubit(),
+        super(key: key);
+
+  final String labelText;
+  final _TextCubit _textCubit;
+
+  String get currentValue => _textCubit.state;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<_TextCubit, String>(
+      bloc: _textCubit,
+      builder: (context, state) => TextFormField(
+        onChanged: _textCubit.change,
+        initialValue: state.toString(),
+        decoration: InputDecoration(
+          labelText: labelText,
+        ),
+      ),
+    );
+  }
+}
+
+class PasswordField extends StatelessWidget {
+  PasswordField({
+    Key? key,
+    required this.labelText,
+  })  : _passwordCubit = _PasswordCubit(),
+        super(key: key);
+
+  final String labelText;
+  final _PasswordCubit _passwordCubit;
+
+  String get currentValue => _passwordCubit.state.value;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<_PasswordCubit, _PasswordFieldState>(
+      bloc: _passwordCubit,
+      builder: (context, state) => TextField(
+        obscureText: !state.visible,
+        onChanged: _passwordCubit.change,
+        decoration: InputDecoration(
+          hintText: labelText,
+          suffixIcon: IconButton(
+            icon: Icon(
+              state.visible ? Icons.visibility : Icons.visibility_off,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            onPressed: _passwordCubit.toggleVisibility,
+          ),
+        ),
       ),
     );
   }

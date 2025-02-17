@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:invest_manager/repository/stock_operation.dart';
 import 'package:invest_manager/screens/import_data.dart';
+import 'package:invest_manager/screens/login.dart';
 import 'package:invest_manager/screens/search.dart';
 import 'package:invest_manager/screens/stock_list.dart';
 import 'package:invest_manager/screens/tax_report.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: LoginScreen(),
     );
   }
 }
@@ -76,7 +77,7 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => TaxReportScreen(),
+                    builder: (context) => TaxReportScreen(year: 2024),
                   ),
                 );
               },
