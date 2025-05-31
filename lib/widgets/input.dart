@@ -267,7 +267,6 @@ class IntegerCounterField extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: _counterCubit.decrement,
-            style: ElevatedButton.styleFrom(primary: Colors.red),
             child: Text('-'),
           ),
           SizedBox(width: 8),
@@ -299,7 +298,6 @@ class IntegerCounterField extends StatelessWidget {
           SizedBox(width: 8),
           ElevatedButton(
             onPressed: _counterCubit.increment,
-            style: ElevatedButton.styleFrom(primary: Colors.green),
             child: Text('+'),
           ),
         ],
