@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invest_manager/repository/stock_operation.dart';
+import 'package:invest_manager/screens/bloc/authentication/bloc.dart';
 import 'package:invest_manager/screens/import_data.dart';
 import 'package:invest_manager/screens/login.dart';
 import 'package:invest_manager/screens/search.dart';
@@ -20,7 +22,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: BlocProvider(
+        create: (context) => AuthenticationBloc(),
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            if (state is NotAuthenticated) {
+              return LoginScreen();
+            } else if (state is Authenticated) {
+              return HomePage();
+            } else {
+              return LoginScreen();
+            }
+          },
+        ),
+      ),
     );
   }
 }

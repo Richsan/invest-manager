@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:invest_manager/screens/bloc/authentication/bloc.dart';
 import 'package:invest_manager/widgets/input.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -32,7 +34,11 @@ class LoginScreen extends StatelessWidget {
               height: 50.0,
             ),
             SubmitButton(
-              onSubmit: () => print('OK'),
+              onSubmit: () => BlocProvider.of<AuthenticationBloc>(context)
+                  .add(AuthRequestEvent(
+                username: usernameField.currentValue,
+                password: passwordField.currentValue,
+              )),
               text: 'Login',
             )
           ],
