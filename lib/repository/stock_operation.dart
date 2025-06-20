@@ -4,15 +4,16 @@ import 'package:invest_manager/components/db.dart';
 import 'package:invest_manager/models/stock_operation.dart';
 import 'package:sqflite_sqlcipher/sqflite.dart';
 
-Future<void> save(StockOperation operation) async {
-  await (await getDatabase()).transaction((txn) async {
+Future<void> save(Future<Database> database, StockOperation operation) async {
+  await (await database).transaction((txn) async {
     await txn.insert('stock_operation', operation.toEntity(),
         conflictAlgorithm: ConflictAlgorithm.rollback);
   });
 }
 
-Future<void> saveAll(List<StockOperation> operations) async {
-  final b = (await getDatabase()).batch();
+Future<void> saveAll(
+    Future<Database> database, List<StockOperation> operations) async {
+  final b = (await database).batch();
 
   for (StockOperation operation in operations) {
     b.insert('stock_operation', operation.toEntity(),
@@ -27,9 +28,10 @@ Future<void> saveAll(List<StockOperation> operations) async {
   });
 }
 
-Future<List<StockOperation>> getAllStockOperations() async {
+Future<List<StockOperation>> getAllStockOperations(
+    Future<Database> database) async {
   final companies = await listedCompanies;
-  return (await (await getDatabase()).query(
+  return (await (await database).query(
     'stock_operation',
     orderBy: 'stock_operation_operation_date desc',
   ))

@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:invest_manager/models/stock_operation.dart';
 import 'package:invest_manager/repository/stock_operation.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart';
 
 part 'events.dart';
 part 'states.dart';
@@ -20,7 +21,7 @@ class StockOperationListingBloc
         operations: event.operations,
       ));
 
-      await saveAll(event.operations);
+      await saveAll(event.database, event.operations);
 
       emit(SavedListState(
         operations: event.operations,

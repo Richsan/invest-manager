@@ -44,5 +44,12 @@ class AuthenticationDenied extends AuthenticationState {
 }
 
 class Authenticated extends AuthenticationState {
-  const Authenticated();
+  const Authenticated({required this.userDatabase});
+
+  final Future<Database> userDatabase;
+
+  @override
+  List<Object> get props => [
+        userDatabase,
+      ];
 }

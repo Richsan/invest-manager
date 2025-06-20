@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invest_manager/adapters/date.dart';
 import 'package:invest_manager/adapters/number.dart';
 import 'package:invest_manager/models/stock_operation.dart';
+import 'package:invest_manager/screens/bloc/authentication/bloc.dart';
 import 'package:invest_manager/screens/bloc/screen_loader/bloc.dart';
 import 'package:invest_manager/screens/bloc/stock_operation_list/bloc.dart';
 import 'package:invest_manager/screens/stock.dart';
@@ -162,8 +163,14 @@ class StockOperationListToSave extends StatelessWidget {
           height: 20,
         ),
         SubmitButton(
-          onSubmit: () => BlocProvider.of<StockOperationListingBloc>(context)
-              .add(SaveStockOperationList(operations: operations)),
+          onSubmit: () =>
+              BlocProvider.of<StockOperationListingBloc>(context).add(
+            SaveStockOperationList(
+              operations: operations,
+              database: BlocProvider.of<AuthenticationBloc>(context)
+                  .getUserDatabase(),
+            ),
+          ),
           text: 'Save',
           isLoading: isLooading,
         ),

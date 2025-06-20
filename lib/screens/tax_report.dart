@@ -5,6 +5,7 @@ import 'package:invest_manager/adapters/number.dart';
 import 'package:invest_manager/logics/report.dart';
 import 'package:invest_manager/models/stock_operation.dart';
 import 'package:invest_manager/repository/stock_operation.dart';
+import 'package:invest_manager/screens/bloc/authentication/bloc.dart';
 import 'package:invest_manager/screens/bloc/screen_loader/bloc.dart';
 import 'package:invest_manager/widgets/output.dart';
 
@@ -163,7 +164,10 @@ class TaxReportScreen extends StatelessWidget {
         title: const Text('Tax Report'),
       ),
       body: BlocProvider(
-        create: (context) => LoaderScreenBloc(data: getAllStockOperations()),
+        create: (context) => LoaderScreenBloc(
+            data: getAllStockOperations(
+                BlocProvider.of<AuthenticationBloc>(context)
+                    .getUserDatabase())),
         child: BlocBuilder<LoaderScreenBloc, LoaderScreenState>(
           builder: (context, state) {
             if (state is InitialLoaderScreenState) {

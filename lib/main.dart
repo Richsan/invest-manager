@@ -70,8 +70,11 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => StockOperationListScreen(
-                      stockOperationsFuture: getAllStockOperations(),
+                    builder: (newContext) => StockOperationListScreen(
+                      stockOperationsFuture: getAllStockOperations(
+                        BlocProvider.of<AuthenticationBloc>(context)
+                            .getUserDatabase(),
+                      ),
                     ),
                   ),
                 );

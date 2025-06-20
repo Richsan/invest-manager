@@ -33,3 +33,22 @@ Future<Database> getDatabase() async {
     version: 1,
   );
 }
+
+Future<Database> getUsersDatabase() async {
+  final databasePath = await getDatabasesPath();
+  final path = join(databasePath, 'users.db');
+
+  return await openDatabase(
+    path,
+    onCreate: (db, version) async {
+      await db
+          .execute(
+            'CREATE TABLE user(username TEXT PRIMARY KEY,'
+            ' database_path TEXT NOT NULL '
+            ')',
+          )
+          .onError((error, stackTrace) => print('$error'));
+    },
+    version: 1,
+  );
+}

@@ -10,12 +10,15 @@ abstract class StockOperationListingEvent extends Equatable {
 class SaveStockOperationList extends StockOperationListingEvent {
   const SaveStockOperationList({
     required this.operations,
+    required this.database,
   });
 
   final List<StockOperation> operations;
+  final Future<Database> database;
 
   @override
   List<Object?> get props => [
         operations,
+        database,
       ];
 }

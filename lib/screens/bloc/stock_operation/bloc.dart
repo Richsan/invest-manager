@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invest_manager/models/b3.dart';
 import 'package:invest_manager/models/stock_operation.dart';
 import 'package:invest_manager/repository/stock_operation.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart';
 
 part 'events.dart';
 part 'states.dart';
@@ -16,7 +17,7 @@ class SaveStockOperationScreenBloc
       emit(SavingStockOperationScreenState(operation: event.operation));
 
       // Save to database
-      await save(event.operation);
+      await save(event.database, event.operation);
 
       emit(SavedStockOperationScreenState(
         operation: event.operation,

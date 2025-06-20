@@ -1,6 +1,7 @@
 import 'package:invest_manager/adapters/string.dart';
 import 'package:invest_manager/models/b3.dart';
 import 'package:invest_manager/models/stock_operation.dart';
+import 'package:invest_manager/models/user.dart';
 import 'package:uuid/uuid.dart';
 
 extension StockOperationEntity on StockOperation {
@@ -25,6 +26,15 @@ extension StockOperationEntity on StockOperation {
   }
 }
 
+extension UserEntity on User {
+  Map<String, dynamic> toEntity() {
+    return {
+      "username": username,
+      "database_path": databasePath,
+    };
+  }
+}
+
 extension FromEntity on Map<String, dynamic> {
   StockOperation fromStockOperationEntity(Company company) {
     final String tags = this['stock_operation_tags'] ?? '';
@@ -45,6 +55,13 @@ extension FromEntity on Map<String, dynamic> {
       unities: BigInt.from(this['stock_operation_unities']),
       splitFactor: this['stock_operation_split_factor'].toDouble(),
       operationType: (this['stock_operation_type'] as String).toOperationType(),
+    );
+  }
+
+  User fromUserEntity() {
+    return User(
+      username: this['username'],
+      databasePath: this['database_path'],
     );
   }
 }

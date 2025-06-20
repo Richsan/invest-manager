@@ -5,6 +5,7 @@ import 'package:invest_manager/adapters/entity.dart';
 import 'package:invest_manager/adapters/number.dart';
 import 'package:invest_manager/models/b3.dart';
 import 'package:invest_manager/models/stock_operation.dart';
+import 'package:invest_manager/screens/bloc/authentication/bloc.dart';
 import 'package:invest_manager/screens/bloc/stock_operation/bloc.dart';
 import 'package:invest_manager/widgets/input.dart';
 import 'package:invest_manager/widgets/output.dart';
@@ -214,20 +215,23 @@ class _StockOperationScreen extends StatelessWidget {
                 onSubmit: (() =>
                     BlocProvider.of<SaveStockOperationScreenBloc>(context).add(
                       SaveStockOperationEvent(
-                          operation: StockOperation(
-                        ticker: ticker.currentValue,
-                        operationType: operationType,
-                        company: company,
-                        emoluments: emoluments.currentValue!,
-                        liquidationDate: liquidationDate.currentValue!,
-                        liquidationFee: liquidationFee.currentValue!,
-                        operationDate: operationDate.currentValue!,
-                        operationFee: operationFee.currentValue!,
-                        otherFees: otherFees.currentValue!,
-                        taxes: taxes.currentValue!,
-                        unityValue: unityValue.currentValue!,
-                        unities: unities.currentValue,
-                      )),
+                        operation: StockOperation(
+                          ticker: ticker.currentValue,
+                          operationType: operationType,
+                          company: company,
+                          emoluments: emoluments.currentValue!,
+                          liquidationDate: liquidationDate.currentValue!,
+                          liquidationFee: liquidationFee.currentValue!,
+                          operationDate: operationDate.currentValue!,
+                          operationFee: operationFee.currentValue!,
+                          otherFees: otherFees.currentValue!,
+                          taxes: taxes.currentValue!,
+                          unityValue: unityValue.currentValue!,
+                          unities: unities.currentValue,
+                        ),
+                        database: BlocProvider.of<AuthenticationBloc>(context)
+                            .getUserDatabase(),
+                      ),
                     ))),
           ],
         ),
